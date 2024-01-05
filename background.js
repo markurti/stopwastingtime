@@ -1,21 +1,4 @@
 // background.js
-// background.js
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
-    chrome.declarativeContent.onPageChanged.addRules([{
-      conditions: [
-        new chrome.declarativeContent.PageStateMatcher({
-          pageUrl: { hostEquals: 'www.youtube.com' }
-        }),
-        new chrome.declarativeContent.PageStateMatcher({
-          pageUrl: { hostEquals: 'www.twitch.tv' }
-        })
-      ],
-      actions: [new chrome.declarativeContent.ShowPageAction()]
-    }]);
-  });
-});
-
 let isTimeValid;
 
 setInterval(() => {
@@ -26,6 +9,14 @@ function checkTimeValidity() {
   const currentHour = new Date().getHours();
   return currentHour >= 21 && currentHour < 23; // Between 9 PM and 11 PM
 }
+
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+  if (changeInfo.status === 'complete') {
+    if (!isTimeValid) {
+      chrome.tabs.sendMessage(tabId, { action: "blockSite" });
+    }
+  }
+});
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "checkTimeAndBlockSite") {
@@ -54,9 +45,3 @@ function checkTimeAndBlockSite() {
     });
   }
 }
-
-chrome.webNavigation.onCompleted.addListener(function (details) {
-  if (!isTimeValid) {
-    chrome.tabs.sendMessage(details.tabId, { action: "blockSite" });
-  }
-});
