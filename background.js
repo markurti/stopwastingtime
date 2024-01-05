@@ -24,6 +24,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 function checkTimeAndBlockSite(tabId) {
   if (!isTimeValid) {
-    chrome.tabs.sendMessage(tabId, { action: "blockSite" });
+    chrome.scripting.executeScript({
+      target: { tabId: tabId },
+      function: blockSite
+    });
   }
+}
+
+function blockSite() {
+  document.body.innerHTML = `<h1>Website Blocked</h1><p>Access to YouTube and Twitch is blocked outside of 9 PM to 11 PM.</p>`;
 }
