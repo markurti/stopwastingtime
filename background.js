@@ -12,36 +12,18 @@ function checkTimeValidity() {
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   if (changeInfo.status === 'complete') {
-    if (!isTimeValid) {
-      chrome.tabs.sendMessage(tabId, { action: "blockSite" });
-    }
+    chrome.runtime.sendMessage({ action: "checkTimeAndBlockSite", tabId: tabId });
   }
 });
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request.action === "checkTimeAndBlockSite") {
-    checkTimeAndBlockSite();
+    checkTimeAndBlockSite(request.tabId);
   }
 });
 
-function checkTimeAndBlockSite() {
+function checkTimeAndBlockSite(tabId) {
   if (!isTimeValid) {
-    chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
-      chrome.declarativeContent.onPageChanged.addRules([{
-        conditions: [
-          new chrome.declarativeContent.PageStateMatcher({
-            pageUrl: { hostEquals: 'www.youtube.com' }
-          }),
-          new chrome.declarativeContent.PageStateMatcher({
-            pageUrl: { hostEquals: 'www.twitch.tv' }
-          })
-        ],
-        actions: [new chrome.declarativeContent.ShowPageAction()]
-      }]);
-    });
-  } else {
-    chrome.declarativeContent.onPageChanged.removeRules(undefined, function () {
-      // Do nothing, sites are not blocked during valid hours
-    });
+    chrome.tabs.sendMessage(tabId, { action: "blockSite" });
   }
 }
