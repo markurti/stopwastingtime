@@ -1,16 +1,10 @@
 // contentScript.js
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.action === "checkTimeAndOpenLink") {
-    checkTimeAndOpenLink(request.link);
+  if (request.action === "blockSite") {
+    blockSite();
   }
 });
 
-function checkTimeAndOpenLink(link) {
-  chrome.runtime.getBackgroundPage(function (backgroundPage) {
-    if (backgroundPage.is_valid_time()) {
-      backgroundPage.open_link(link);
-    } else {
-      alert("Sorry, it's not the designated time to open YouTube and Twitch links.");
-    }
-  });
+function blockSite() {
+  document.body.innerHTML = `<h1>Website Blocked</h1><p>Access to YouTube and Twitch is blocked outside of 9 PM to 11 PM.</p>`;
 }

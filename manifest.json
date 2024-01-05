@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Time-Based Link Opening",
+  "name": "Time-based Website Blocker",
   "version": "1.0",
   "permissions": ["activeTab"],
   "background": {
@@ -8,7 +8,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/*", "*://*.twitch.tv/*"],
+      "matches": ["*://www.youtube.com/*", "*://www.twitch.tv/*"],
       "js": ["contentScript.js"]
     }
   ]
