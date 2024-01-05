@@ -1,18 +1,20 @@
 // background.js
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.action === "checkTimeAndOpenLink") {
-    checkTimeAndOpenLink(request.link, sender.tab.id);
-  }
+let isTimeValid;
+
+chrome.runtime.onConnect.addListener((port) => {
+  port.onMessage.addListener((msg) => {
+    if (msg.action === "checkTimeAndOpenLink") {
+      checkTimeAndOpenLink(msg.link, port.sender.tab.id);
+    }
+  });
 });
 
 function checkTimeAndOpenLink(link, tabId) {
-  chrome.runtime.getBackgroundPage(function (backgroundPage) {
-    if (backgroundPage.is_valid_time()) {
-      chrome.runtime.sendMessage({ action: "openLinkInBackground", link: link });
-    } else {
-      chrome.tabs.sendMessage(tabId, { action: "showAlert", message: "Sorry, it's not the designated time to open YouTube and Twitch links." });
-    }
-  });
+  if (isTimeValid) {
+    chrome.runtime.sendMessage({ action: "openLinkInBackground", link: link });
+  } else {
+    chrome.tabs.sendMessage(tabId, { action: "showAlert", message: "Sorry, it's not the designated time to open YouTube and Twitch links." });
+  }
 }
 
 function openLinkInBackground(link) {
@@ -20,3 +22,6 @@ function openLinkInBackground(link) {
     // Tab created
   });
 }
+
+// Set isTimeValid based on your logic (e.g., check the time)
+isTimeValid = true;  // Replace with your logic to determine if the time is valid

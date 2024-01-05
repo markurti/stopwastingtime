@@ -1,2 +1,7 @@
 // contentScript.js
-chrome.runtime.sendMessage({ action: "checkTimeAndOpenLink", link: window.location.href });
+const port = chrome.runtime.connect({ name: "content-script" });
+
+port.postMessage({
+  action: "checkTimeAndOpenLink",
+  link: window.location.href,
+});
