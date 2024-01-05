@@ -12,7 +12,9 @@ function checkTimeValidity() {
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   if (changeInfo.status === 'complete') {
-    chrome.runtime.sendMessage({ action: "checkTimeAndAllowSite", tabId: tabId });
+    setTimeout(() => {
+      chrome.runtime.sendMessage({ action: "checkTimeAndAllowSite", tabId: tabId });
+    }, 1000); // Delay for 1 second
   }
 });
 
