@@ -15,14 +15,19 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 html::before {
-  content: 'THEN GO BACK TO WORK';
+  content: 'Need that Lambo?';
+  display: block;
+  font-size: 30px;
 }
 
 html::after {
-  content: 'Need that lambo?';
+  content: 'THEN GO BACK TO WORK';
+  display: block;
+  font-size: 75px;
 }
 
 body {
