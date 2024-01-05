@@ -1,10 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "Hello Extensions",
-  "description": "Base Level Extension",
+  "name": "Time-Based Link Opening",
   "version": "1.0",
-  "action": {
-    "default_popup": "hello.html",
-    "default_icon": "hello_extension.jpg"
-  }
+  "permissions": ["activeTab"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*", "*://*.twitch.tv/*"],
+      "js": ["contentScript.js"]
+    }
+  ]
 }
