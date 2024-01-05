@@ -12,25 +12,18 @@ function checkTimeValidity() {
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   if (changeInfo.status === 'complete') {
-    chrome.runtime.sendMessage({ action: "checkTimeAndBlockSite", tabId: tabId });
+    chrome.runtime.sendMessage({ action: "checkTimeAndAllowSite", tabId: tabId });
   }
 });
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.action === "checkTimeAndBlockSite") {
-    checkTimeAndBlockSite(request.tabId);
+  if (request.action === "checkTimeAndAllowSite") {
+    checkTimeAndAllowSite(request.tabId);
   }
 });
 
-function checkTimeAndBlockSite(tabId) {
+function checkTimeAndAllowSite(tabId) {
   if (!isTimeValid) {
-    chrome.scripting.executeScript({
-      target: { tabId: tabId },
-      function: blockSite
-    });
+    chrome.tabs.remove(tabId);
   }
-}
-
-function blockSite() {
-  document.body.innerHTML = `<h1>Website Blocked</h1><p>Access to YouTube and Twitch is blocked outside of 9 PM to 11 PM.</p>`;
 }

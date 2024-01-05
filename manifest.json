@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Time-based Website Blocker",
+  "name": "Time-based Website Access",
   "version": "1.0",
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "storage"],
   "background": {
     "service_worker": "background.js"
   },
