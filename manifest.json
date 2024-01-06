@@ -14,7 +14,7 @@
         "https://www.youtube.com/*",
         "https://www.youtu.be/*",
         "https://www.twitch.tv/*",
-        "https://www.minesweeper.online/*"
+        "https://minesweeper.online/*"
       ],
       "css": [
         "css/style.css"
@@ -23,7 +23,7 @@
         {
           "resources": ["css/style.css"],
           "matches": ["https://www.youtube.com/*", "https://www.youtu.be/*", "https://www.twitch.tv/*",
-            "https://www.minesweeper.online/*"]
+            "https://minesweeper.online/*"]
         }
       ]
     }
