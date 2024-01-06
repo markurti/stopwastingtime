@@ -13,7 +13,8 @@
       "matches": [
         "https://www.youtube.com/*",
         "https://www.youtu.be/*",
-        "https://www.twitch.tv/*"
+        "https://www.twitch.tv/*",
+        "https://www.minesweeper.online/*"
       ],
       "css": [
         "css/style.css"
@@ -21,7 +22,8 @@
       "web_accessible_resources": [
         {
           "resources": ["css/style.css"],
-          "matches": ["https://www.youtube.com/*", "https://www.youtu.be/*", "https://www.twitch.tv/*"]
+          "matches": ["https://www.youtube.com/*", "https://www.youtu.be/*", "https://www.twitch.tv/*",
+            "https://www.minesweeper.online/*"]
         }
       ]
     }
